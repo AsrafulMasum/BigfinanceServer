@@ -104,8 +104,8 @@ app.post("/users", async (req, res) => {
 
 // products api method
 app.post("/players", verifyCookie, async (req, res) => {
-  const cartInfo = req.body;
-  const result = await playersCollections.insertOne(cartInfo);
+  const playerInfo = req.body;
+  const result = await playersCollections.insertOne(playerInfo);
   res.send(result);
 });
 
@@ -115,10 +115,10 @@ app.get("/players", async (req, res) => {
   res.send(result);
 });
 
-app.get("/players/:id", verifyCookie, async (req, res) => {
+app.delete("/players/:id", verifyCookie, async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
-  const result = await playersCollections.findOne(query)
+  const result = await playersCollections.deleteOne(query)
   res.send(result);
 });
 
