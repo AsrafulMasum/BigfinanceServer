@@ -115,6 +115,28 @@ app.get("/players", async (req, res) => {
   res.send(result);
 });
 
+app.get("/players/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await playersCollections.findOne(query);
+  res.send(result);
+});
+
+app.put("/players/:id", async (req, res) => {
+  const id = req.params.id;
+  const filter = { _id: new ObjectId(id) };
+  const options = { upsert: true };
+  const updatePlayer = {
+    $set: {
+      name: req.body.name,
+      country: req.body.country,
+      score: req.body.score,
+    },
+  };
+  const result = await playersCollections.updateOne(filter,updatePlayer,options);
+  res.send(result);
+});
+
 app.delete("/players/:id", verifyCookie, async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
